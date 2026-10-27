@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moonwalker | Official Techno Artist Profile & Releases</title>
+  <meta name="description" content="Official website of Moonwalker: 
+   On this website Moonwalker uploads his tracks to challenge the mainstream way of releasing music.
+   True sound is underground. It forms the foundation on which everything is built. 
+   Here, Moonwalker explores an abstract approach to making emotional techno. 
+   Moonwalkers mission is to take you on a journey through space by combining 
+   darkness with melody and emotion.">
+  <meta name="keywords" content="Moonwalker, Techno, DJ, Producer, Hard Techno">
+  <meta name="author" content="Moonwalker">
+
+  <!-- Google Fonts for futuristic, clean typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS entrypoint -->
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+
+<body>
+
+  <!-- Background Interactive Visualizer -->
+  <canvas id="ambient-canvas"></canvas>
+  <div class="scanlines"></div>
+
+  <!-- App Wrapper -->
+  <div id="app">
+
+    <!-- Header / Navigation -->
+    <header id="main-header">
+      <div class="header-container">
+        <a href="#" class="logo" id="nav-logo">
+          MOONWALKER
+        </a>
+        <nav id="main-nav">
+          <a href="#music" class="nav-link" id="link-music">RELEASES</a>
+          <a href="#bio" class="nav-link" id="link-bio">ABOUT</a>
+          <a href="#socials" class="nav-link" id="link-socials">SOCIALS</a>
+          <a href="#contact" class="nav-link btn-glow" id="link-contact">BOOKINGS</a>
+        </nav>
+        <button id="mobile-menu-toggle" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero / Showcase Section -->
+    <section id="hero">
+      <!-- Top Right Giant Partially-Visible Moon -->
+      <div class="hero-moon-container" aria-hidden="true">
+        <div class="hero-moon">
+          <!-- Lunar Maria (Dark Basaltic Seas) -->
+          <div class="moon-sea sea-1"></div>
+          <div class="moon-sea sea-2"></div>
+          <div class="moon-sea sea-3"></div>
+          <div class="moon-sea sea-4"></div>
+          <!-- Craters -->
+          <div class="moon-crater crater-1"></div>
+          <div class="moon-crater crater-2"></div>
+          <div class="moon-crater crater-3"></div>
+          <div class="moon-crater crater-4"></div>
+          <div class="moon-crater crater-5"></div>
+          <div class="moon-crater crater-6"></div>
+          <div class="moon-crater crater-7"></div>
+          <!-- Surface Texture Overlay -->
+          <div class="moon-surface-texture"></div>
+          <!-- GPU Smooth Light Layer -->
+          <div class="moon-light-glow"></div>
+          <div class="moon-atmosphere"></div>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-tag">TECHNO • HARD TECHNO</div>
+        <h1 class="hero-title" id="hero-title">MOONWALKER</h1>
+        <p class="hero-subtitle">
+          <span style="white-space: nowrap; display: inline-block;">
+            Sculpting dark sonic landscapes that let you travel through space
+          </span>
+          <br>
+          Making techno with an emotional touch
+        </p>
+
+        <!-- Latest Release Banner -->
+        <div class="latest-release-banner glass-panel" id="latest-release-showcase">
+          <div class="banner-badge">LATEST RELEASE</div>
+          <div class="banner-content">
+            <div class="banner-img-container">
+              <div class="vinyl-record"></div>
+
+              <!-- ONE artwork block here -->
+              <div class="banner-artwork" id="latest-art-fallback">
+                <img src="/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png" alt="Pump Up The Bass cover"
+                  class="banner-art-img">
+              </div>
+            </div>
+
+            <div class="banner-text">
+              <h2 id="latest-release-title">Pump Up The Bass</h2>
+              <p class="release-info">Moonwalker • Pump Up The Bass • MW-002</p>
+              <div class="banner-actions">
+                <button class="btn btn-primary play-release-btn" data-release="pump-up-the-bass"
+                  data-audio-src="/Pump_Up_The_Bass/Pump_Up_The_Bass.wav" id="hero-listen-btn">
+                  <span class="btn-icon">▶</span> LISTEN NOW
+                </button>
+                <a href="#music" class="btn btn-secondary" id="hero-view-all-btn">ALL RELEASES</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <a href="#music" class="scroll-down" id="scroll-down-btn" aria-label="Scroll Down">
+          <span class="scroll-arrow"></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Music / Releases Grid Section -->
+    <section id="music" class="section-padding">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-tag">DISCOGRAPHY</span>
+          <h2 class="section-title">RELEASES</h2>
+        </div>
+
+        <!-- TECHNO SECTION -->
+        <div class="discography-category">
+          <div class="category-header">
+            <h3 class="category-title">
+              <span class="category-icon"> </span> TECHNO
+            </h3>
+            <span class="category-badge">UPCOMING</span>
+          </div>
+          <div class="releases-grid" id="techno-releases-container">
+            <!-- Release Card: No End Without Beginning -->
+            <div class="release-card glass-panel" id="release-card-no-end-without-beginning">
+              <div class="card-artwork-wrapper">
+                <div class="card-artwork" id="No_End_Without_Beginning_Image"
+                  style="background-image: url('/No_End_Withoud_Beginning/No_End_Without_Beginning_Image.png'); background-size: cover; background-position: center;">
+                </div>
+                <div class="card-overlay-controls">
+                  <button class="play-card-btn" data-track-id="No_End_Withoud_Beginning"
+                    aria-label="Play Track">▶</button>
+                </div>
+              </div>
+              <div class="card-details">
+                <span class="card-meta">SINGLE • 2026</span>
+                <h3>No End Without Beginning</h3>
+                <p class="card-tracks-summary">1 Track • Techno</p>
+                <div class="card-tracklist">
+                  <div class="track-row" data-track-id="No_End_Withoud_Beginning"
+                    data-audio-src="/No_End_Withoud_Beginning/No_End_Without_Beginning_Master.mp3"
+                    data-title="No End Without Beginning" data-album="No End Without Beginning • MW-1">
+                    <span class="track-num">01</span>
+                    <span class="track-name">No End Without Beginning</span>
+                    <span class="track-play-icon">▶</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HARD TECHNO SECTION -->
+        <div class="discography-category">
+          <div class="category-header">
+            <h3 class="category-title">
+              <span class="category-icon"> </span> HARD TECHNO
+            </h3>
+            <span class="category-badge">1 RELEASE</span>
+          </div>
+          <div class="releases-grid" id="hard-techno-releases-container">
+            <!-- Release Card: Pump Up The Bass -->
+            <div class="release-card glass-panel" id="release-card-pump-up-the-bass">
+              <div class="card-artwork-wrapper">
+                <div class="card-artwork" id="art-pump-up-the-bass"
+                  style="background-image: url('/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png'); background-size: cover; background-position: center;">
+                </div>
+                <div class="card-overlay-controls">
+                  <button class="play-card-btn" data-track-id="pump-up-the-bass" aria-label="Play Track">▶</button>
+                </div>
+              </div>
+              <div class="card-details">
+                <span class="card-meta">SINGLE • 2026</span>
+                <h3>Pump Up The Bass</h3>
+                <p class="card-tracks-summary">1 Track • Hard Techno</p>
+                <div class="card-tracklist">
+                  <div class="track-row" data-track-id="pump-up-the-bass"
+                    data-audio-src="/Pump_Up_The_Bass/Pump_Up_The_Bass.wav" data-title="Pump Up The Bass"
+                    data-album="Pump Up The Bass • MW-002">
+                    <span class="track-num">01</span>
+                    <span class="track-name">Pump Up The Bass</span>
+                    <span class="track-play-icon">▶</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Biography / About Section -->
+    <section id="bio" class="section-padding">
+      <div class="section-container bio-grid">
+        <div class="bio-visual">
+          <div class="orbit-visual">
+            <div class="orbit-line inner"></div>
+            <div class="orbit-line mid"></div>
+            <div class="orbit-line outer"></div>
+            <div class="orbit-core">▲</div>
+          </div>
+          <img src="/Pictures/Moonwalker_foto_1_without_background_oval.png" alt="Moonwalker" class="bio-image">
+        </div>
+        <div class="bio-text-content">
+          <div class="section-header">
+            <span class="section-tag">BIOGRAPHY</span>
+            <h2 class="section-title">THE SOUND OF MOONWALKER</h2>
+          </div>
+          <p class="bio-paragraph">
+            Hailing from Amsterdam, <strong>Moonwalker</strong> is a techno producer crafting immersive journeys
+            through sound.
+            Blending techno with the raw energy of hard techno and other influences, his music is designed
+            to move both the body and the mind. Productions explore the balance
+            between emotion and intensity, seamlessly shifting from melodic moments
+            to harder, relentless passages. Every track tells a story.
+          </p>
+          <div class="bio-actions">
+            <a href="/EPK_MOONWALKER_2026.pdf" download="EPK_MOONWALKER_2026.pdf" class="btn btn-secondary"
+              id="epk-download-btn">DOWNLOAD PRESS KIT (EPK)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Socials Section -->
+    <section id="socials" class="section-padding">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-tag">SOCIALS</span>
+          <h2 class="section-title">CONNECT & FOLLOW</h2>
+        </div>
+
+        <div class="socials-grid">
+
+          <!-- SoundCloud Card -->
+          <a href="https://soundcloud.com/moonwalker-77951127" target="_blank" rel="noopener noreferrer"
+            class="social-card glass-panel" id="social-soundcloud">
+            <div class="social-icon-wrapper soundcloud-glow">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M1.175 12.225c-.07.275-.105.57-.105.88 0 2.29 1.83 4.14 4.1 4.14h13.91c2.61 0 4.73-2.12 4.73-4.74 0-2.5-1.95-4.57-4.43-4.73-.24-2.61-2.42-4.65-5.08-4.65-1.84 0-3.47.97-4.38 2.45-.44-.22-.93-.35-1.46-.35-1.78 0-3.25 1.38-3.41 3.13-.15-.03-.32-.05-.48-.05-1.77 0-3.21 1.44-3.4 3.92z" />
+              </svg>
+            </div>
+            <div class="social-info">
+              <h3 class="social-platform">SOUNDCLOUD</h3>
+              <p class="social-handle">@moonwalker</p>
+              <span class="social-link-label">LISTEN & FOLLOW →</span>
+            </div>
+          </a>
+
+          <!-- YouTube Card -->
+          <a href="https://www.youtube.com/@Moonwalker.technoproduction" target="_blank" rel="noopener noreferrer"
+            class="social-card glass-panel" id="social-youtube">
+            <div class="social-icon-wrapper youtube-glow">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+            </div>
+            <div class="social-info">
+              <h3 class="social-platform">YOUTUBE</h3>
+              <p class="social-handle" title="@moonwalker.technoproduction">@moonwalker.technoproduction</p>
+              <span class="social-link-label">WATCH VIDEOS →</span>
+            </div>
+          </a>
+
+          <!-- Instagram Card -->
+          <a href="https://www.instagram.com/moonwalker.technoproductions/" target="_blank" rel="noopener noreferrer"
+            class="social-card glass-panel" id="social-instagram">
+            <div class="social-icon-wrapper instagram-glow">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </div>
+            <div class="social-info">
+              <h3 class="social-platform">INSTAGRAM</h3>
+              <p class="social-handle" title="@moonwalker.technoproductions">@moonwalker.technoproductions</p>
+              <span class="social-link-label">SEE UPDATES →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bookings & Contact Section -->
+    <section id="contact" class="section-padding">
+      <div class="section-container contact-layout">
+        <div class="contact-info-panel">
+          <div class="section-header">
+            <span class="section-tag">CONTACT</span>
+            <h2 class="section-title">BOOKING & INQUIRIES</h2>
+          </div>
+          <p class="contact-desc">
+            For booking inquiries, press requests, promo list submissions,
+            or general contact, please fill out the secure cryptographic booking
+            form.
+          </p>
+        </div>
+
+        <div class="contact-form-panel glass-panel">
+          <form id="booking-form" action="#" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="form-name">NAME / AGENCY</label>
+                <input type="text" id="form-name" name="name" required placeholder="Enter name or agency">
+              </div>
+              <div class="form-group">
+                <label for="form-email">EMAIL ADDRESS</label>
+                <input type="email" id="form-email" name="email" required placeholder="address@domain.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="form-type">INQUIRY TYPE</label>
+              <select id="form-type" name="type" required>
+                <option value="booking">Booking Offer</option><!-- (DJ Set / Live) -->
+                <option value="promo">Promo Submission </option> <!-- Demo </option> -->
+                <option value="press">Press / Media / Interview</option>
+                <option value="other">General Inquiry</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="form-message">TRANSMISSION MESSAGE</label>
+              <textarea id="form-message" name="message" rows="5" required
+                placeholder="Write details about the venue, date, schedule or request..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full-width" id="form-submit-btn">
+              <span class="submit-glow-effect"></span>
+              SEND SECURE TRANSMISSION
+            </button>
+          </form>
+          <div class="form-status-message" id="form-status"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="main-footer">
+      <div class="footer-container">
+        <p class="copyright">&copy; 2026 MOONWALKER. ALL RIGHTS RESERVED.</p>
+      </div>
+    </footer>
+
+    <!-- Persistent Floating Custom Audio Player -->
+    <div id="persistent-player" class="glass-panel player-hidden">
+      <!-- Player visual progress -->
+      <div class="player-progress-bar-container" id="player-progress-container">
+        <div class="player-progress-bar" id="player-progress"></div>
+      </div>
+
+      <div class="player-container">
+        <!-- Track info -->
+        <div class="player-track-info">
+          <div class="player-mini-artwork" id="player-art">
+            <span>🌑</span>
+          </div>
+          <div class="player-text-details">
+            <span class="player-track-title" id="player-track-title">Not Playing</span>
+            <span class="player-track-album" id="player-track-album">Select a track</span>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="player-controls">
+          <button class="player-btn" id="player-btn-prev" aria-label="Previous Track">
+            ⏮
+          </button>
+          <button class="player-btn player-btn-main" id="player-btn-play" aria-label="Play/Pause">
+            ▶
+          </button>
+          <button class="player-btn" id="player-btn-next" aria-label="Next Track">
+            ⏭
+          </button>
+        </div>
+
+        <!-- Extra Controls / Scrubber / Volume -->
+        <div class="player-extra-controls">
+          <!-- Small Visualizer simulation -->
+          <div class="player-visualizer-sim" id="mini-visualizer">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="player-time-display">
+            <span id="player-time-current">0:00</span>
+            <span>/</span>
+            <span id="player-time-total">0:00</span>
+          </div>
+
+          <div class="player-volume-container">
+            <button class="player-btn" id="player-btn-mute" aria-label="Mute/Unmute">
+              🔊
+            </button>
+            <input type="range" id="player-volume-slider" min="0" max="1" step="0.05" value="0.7">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Entrypoint -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
