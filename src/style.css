@@ -97,22 +97,23 @@ textarea {
   outline: none;
 }
 
-/* Scanlines overlay for modular screen feel */
+/* Scanlines overlay disabled to maintain crystal-clear resolution */
 .scanlines {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%,
-      rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg,
-      rgba(255, 0, 0, 0.03),
-      rgba(0, 255, 0, 0.01),
-      rgba(0, 0, 255, 0.03));
-  background-size: 100% 4px, 6px 100%;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.4;
+  display: none !important;
+}
+
+/* Crisp, high-definition image rendering */
+img,
+.card-artwork,
+.banner-artwork,
+.banner-art-img,
+.bio-image,
+.player-mini-artwork {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* Interactive particle canvas in background */
@@ -692,7 +693,7 @@ h4 {
   border: 1px solid var(--border-color);
 
   /* cover image here */
-  background-image: url("/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png");
+  background-image: url("/Rave_All_Night/Rave_All_Night_Cover.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1133,10 +1134,11 @@ h4 {
   object-fit: contain;
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 0 25px rgba(0, 242, 255, 0.4));
+  filter: none;
 }
 
 .orbit-visual {
+  display: none;
   width: 280px;
   height: 280px;
   position: absolute;
@@ -1243,6 +1245,26 @@ h4 {
   letter-spacing: 0.1em;
   color: var(--text-muted);
   margin-top: 0.25rem;
+}
+
+.bio-actions {
+  margin-top: 1rem;
+}
+
+#epk-download-btn:hover,
+.bio-actions .btn-secondary:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.45), 0 0 40px rgba(0, 242, 255, 0.15);
+  background: rgba(0, 242, 255, 0.08);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+#epk-download-btn:focus-visible,
+.bio-actions .btn-secondary:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.45);
 }
 
 /* ==========================================================================

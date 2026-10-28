@@ -185,40 +185,68 @@ function initAmbientVisualizer() {
    2. PROCEDURAL TECHNO AUDIO ENGINE (WEB AUDIO API)
    ========================================================================== */
 function initAudioEngine() {
-  // Track metadata
+  // Track metadata with exact durations in seconds
   const tracks = [
-    {
-      id: 'pump-up-the-bass',
-      title: 'Pump Up The Bass',
-      album: 'Pump Up The Bass • MW-2',
-      style: 'Hard Techno',
-      duration: 30, // will automatically update to real audio duration once loaded
-      audioSrc: '/Pump_Up_The_Bass/Pump_Up_The_Bass.wav',
-      artwork: '/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png'
-    },
     {
       id: 'No_End_Withoud_Beginning',
       title: 'No End Without Beginning',
       album: 'No End Without Beginning • MW-1',
       style: 'Techno',
-      duration: 30, // will automatically update to real audio duration once loaded
+      duration: 382,
       audioSrc: '/No_End_Withoud_Beginning/No_End_Without_Beginning_Master.mp3',
       artwork: '/No_End_Withoud_Beginning/No_End_Without_Beginning_Image.png'
+    },
+    {
+      id: 'pump-up-the-bass',
+      title: 'Pump Up The Bass',
+      album: 'Pump Up The Bass • MW-2',
+      style: 'Hard Techno',
+      duration: 413,
+      audioSrc: '/Pump_Up_The_Bass/Pump_Up_the_Bass_FInal_Master.mp3',
+      artwork: '/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png'
+    },
+    {
+      id: 'An_Illusion_of_Freedom',
+      title: 'An Illusion of Freedom',
+      album: 'An Illusion of Freedom • MW-3',
+      style: 'Techno',
+      duration: 347,
+      audioSrc: '/An_Illusion_of_Freedom/An_Illusion_of_Freedom_MASTER.mp3',
+      artwork: '/An_Illusion_of_Freedom/An_Illusion_of_Freedom_cover1.png'
+    },
+    {
+      id: 'Roll_The_Dice',
+      title: 'Roll The Dice',
+      album: 'Roll The Dice • MW-4',
+      style: 'Techno',
+      duration: 339,
+      audioSrc: '/Roll_the_Dice/Roll_the_Dice_MASTER.mp3',
+      artwork: '/Roll_the_Dice/Roll_the_Dice_Cover.png'
+    },
+    {
+      id: 'Rave_All_Night',
+      title: 'Rave All Night',
+      album: 'Rave All Night EP • MW-5',
+      style: 'Hard Trance / Techno',
+      duration: 315,
+      audioSrc: '/Rave_All_Night/Rave_All_Night.mp3',
+      artwork: '/Rave_All_Night/Rave_All_Night_Cover.png'
+    },
+    {
+      id: 'Rave_All_Night_Hard_Techno_Edit',
+      title: 'Rave All Night (Hard Techno Edit)',
+      album: 'Rave All Night EP • MW-5',
+      style: 'Hard Techno',
+      duration: 315,
+      audioSrc: '/Rave_All_Night/Rave_All_Night_Hard_Techno_Edit.mp3',
+      artwork: '/Rave_All_Night/Rave_All_Night_Cover.png'
     }
   ];
 
   let currentTrackIndex = -1;
-  let audioContext = null;
   let isPlaying = false;
-  let synthLoopId = null;
-  let realAudioPlayer = new Audio(); // HTML5 Audio player for real WAV/MP3 files
-
-
-  // Track Playback Timeline states
-  let playbackStartTime = 0;
-  let pausedTimeOffset = 0;
-  let timelineInterval = null;
-  let trackDuration = 30; // 30 sec preview limits
+  const realAudioPlayer = new Audio();
+  realAudioPlayer.preload = 'auto';
 
   // Select DOM Elements
   const player = document.getElementById('persistent-player');
@@ -236,51 +264,111 @@ function initAudioEngine() {
   const miniVisualizer = document.getElementById('mini-visualizer');
   const playerArt = document.getElementById('player-art');
 
-  // Init Audio Context (must be user action triggered)
-  // Init Audio Context (must be user action triggered)
-  function initContext() {
-    if (audioContext) return;
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    audioContext = new AudioContextClass();
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
 
-  function stopPlayback() {
-    isPlaying = false;
-    if (realAudioPlayer) {
-      realAudioPlayer.pause();
+  function updateTimelineUI() {
+    const elapsed = realAudioPlayer.currentTime || 0;
+    const track = tracks[currentTrackIndex];
+    const duration = (!isNaN(realAudioPlayer.duration) && realAudioPlayer.duration > 0)
+      ? realAudioPlayer.duration
+      : (track?.duration || 315);
+
+    const progressPercent = Math.min(100, (elapsed / duration) * 100);
+    progressBar.style.width = `${progressPercent}%`;
+    timeCurrent.textContent = formatTime(elapsed);
+    timeTotal.textContent = formatTime(duration);
+  }
+
+  function updateCardAndHeroButtons(trackId, isNowPlaying) {
+    // Highlight running track in list
+    document.querySelectorAll('.track-row').forEach(row => {
+      if (row.getAttribute('data-track-id') === trackId) {
+        if (isNowPlaying) row.classList.add('playing');
+        else row.classList.remove('playing');
+      } else {
+        row.classList.remove('playing');
+      }
+    });
+
+    // Highlight card button
+    document.querySelectorAll('.play-card-btn').forEach(btn => {
+      const btnTrackId = btn.getAttribute('data-track-id');
+      const epTracksAttr = btn.getAttribute('data-ep-tracks');
+      const epTracks = epTracksAttr ? epTracksAttr.split(',') : [btnTrackId];
+      if (epTracks.includes(trackId)) {
+        btn.textContent = isNowPlaying ? '⏸' : '▶';
+        if (isNowPlaying) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      } else {
+        btn.textContent = '▶';
+        btn.classList.remove('active');
+      }
+    });
+
+    // Update hero showcase listen button
+    const heroBtn = document.getElementById('hero-listen-btn');
+    if (heroBtn) {
+      const heroRelease = heroBtn.getAttribute('data-release');
+      if (heroRelease === trackId) {
+        heroBtn.innerHTML = isNowPlaying ? '<span class="btn-icon">⏸</span> PAUSE' : '<span class="btn-icon">▶</span> LISTEN NOW';
+      } else {
+        heroBtn.innerHTML = '<span class="btn-icon">▶</span> LISTEN NOW';
+      }
     }
   }
 
-  realAudioPlayer.onended = () => {
+  // Audio Player Event Listeners
+  realAudioPlayer.addEventListener('timeupdate', updateTimelineUI);
+
+  realAudioPlayer.addEventListener('loadedmetadata', () => {
+    if (realAudioPlayer.duration && !isNaN(realAudioPlayer.duration)) {
+      timeTotal.textContent = formatTime(realAudioPlayer.duration);
+    }
+  });
+
+  realAudioPlayer.addEventListener('playing', () => {
+    isPlaying = true;
+    playBtn.textContent = '⏸';
+    miniVisualizer.classList.add('animating');
+    player.classList.remove('player-hidden');
+    if (tracks[currentTrackIndex]) {
+      updateCardAndHeroButtons(tracks[currentTrackIndex].id, true);
+    }
+  });
+
+  realAudioPlayer.addEventListener('pause', () => {
+    if (realAudioPlayer.currentTime < realAudioPlayer.duration) {
+      isPlaying = false;
+      playBtn.textContent = '▶';
+      miniVisualizer.classList.remove('animating');
+      if (tracks[currentTrackIndex]) {
+        updateCardAndHeroButtons(tracks[currentTrackIndex].id, false);
+      }
+    }
+  });
+
+  realAudioPlayer.addEventListener('ended', () => {
     nextTrack();
-  };
+  });
 
-  realAudioPlayer.onloadedmetadata = () => {
-    if (realAudioPlayer.duration) {
-      trackDuration = realAudioPlayer.duration;
-    }
-  };
-
-  // ==========================================
   // PLAYBACK CONTROL LOGIC
-  // ==========================================
   function playTrack(index) {
-    initContext();
-
-    if (isPlaying) {
-      stopPlayback();
-    }
-
-    // Reset visual playing states in grid
-    document.querySelectorAll('.track-row').forEach(row => row.classList.remove('playing'));
-
+    if (index < 0 || index >= tracks.length) index = 0;
     currentTrackIndex = index;
-    const track = tracks[currentTrackIndex] || tracks[0];
+    const track = tracks[currentTrackIndex];
 
     // Update player text
     playerTitle.textContent = track.title;
     playerAlbum.textContent = track.album;
-    trackDuration = track.duration || 30;
+    timeTotal.textContent = formatTime(track.duration);
 
     // Update player artwork
     if (playerArt) {
@@ -288,100 +376,64 @@ function initAudioEngine() {
         playerArt.style.backgroundImage = `url('${track.artwork}')`;
         playerArt.style.backgroundSize = 'cover';
         playerArt.style.backgroundPosition = 'center';
-        playerArt.innerHTML = ''; // hide the emoji fallback
+        playerArt.innerHTML = '';
       } else {
         playerArt.style.backgroundImage = '';
         playerArt.innerHTML = '<span>🌑</span>';
       }
     }
 
-    // Highlight running track in list
-    const activeRows = document.querySelectorAll(`[data-track-id="${track.id}"]`);
-    activeRows.forEach(row => row.classList.add('playing'));
-
-    // Highlight card button
-    document.querySelectorAll('.play-card-btn').forEach(btn => {
-      if (btn.getAttribute('data-track-id') === track.id) {
-        btn.textContent = '⏸';
-        btn.classList.add('active');
-      } else {
-        btn.textContent = '▶';
-        btn.classList.remove('active');
-      }
-    });
-
-    // Reset timelines
-    pausedTimeOffset = 0;
-    if (audioContext) {
-      playbackStartTime = audioContext.currentTime;
-    }
-
-    // Play audio file
-    if (track.audioSrc) {
-      realAudioPlayer.src = track.audioSrc;
-      realAudioPlayer.volume = parseFloat(volumeSlider.value) || 0.8;
-      realAudioPlayer.play().catch(err => {
-        console.warn('Audio playback error:', err);
-      });
-    }
-
-    isPlaying = true;
-    playBtn.textContent = '⏸';
-    miniVisualizer.classList.add('animating');
+    // Ensure player is visible
     player.classList.remove('player-hidden');
 
-    // Set up ticking player UI timer
-    startTimelineProgress();
+    // Only update audio source if it differs to preserve cached buffer
+    if (!realAudioPlayer.src || !realAudioPlayer.src.includes(encodeURI(track.audioSrc))) {
+      realAudioPlayer.src = track.audioSrc;
+    }
+
+    realAudioPlayer.volume = parseFloat(volumeSlider.value) || 0.8;
+    updateTimelineUI();
+
+    const playPromise = realAudioPlayer.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        isPlaying = true;
+        playBtn.textContent = '⏸';
+        miniVisualizer.classList.add('animating');
+        updateCardAndHeroButtons(track.id, true);
+      }).catch(err => {
+        // Autoplay policy prevented playback, keep primed
+        console.warn('Autoplay waiting for user gesture:', err);
+        isPlaying = false;
+        playBtn.textContent = '▶';
+        miniVisualizer.classList.remove('animating');
+        updateCardAndHeroButtons(track.id, false);
+      });
+    }
   }
 
   function togglePlayPause() {
     if (currentTrackIndex === -1) {
-      // Pick first track if none selected
-      playTrack(0);
+      const latestIdx = tracks.findIndex(t => t.id === 'Rave_All_Night');
+      playTrack(latestIdx !== -1 ? latestIdx : 0);
       return;
     }
 
-    initContext();
-
     const track = tracks[currentTrackIndex] || tracks[0];
 
-    if (isPlaying) {
-      // Pause
-      stopPlayback();
-      if (audioContext) {
-        pausedTimeOffset += audioContext.currentTime - playbackStartTime;
-      }
-      playBtn.textContent = '▶';
-      miniVisualizer.classList.remove('animating');
-      document.querySelectorAll('.play-card-btn').forEach(btn => btn.textContent = '▶');
-      stopTimelineProgress();
+    if (isPlaying && !realAudioPlayer.paused) {
+      realAudioPlayer.pause();
     } else {
-      // Resume
-      isPlaying = true;
-      if (audioContext) {
-        playbackStartTime = audioContext.currentTime;
+      if (!realAudioPlayer.src || !realAudioPlayer.src.includes(encodeURI(track.audioSrc))) {
+        realAudioPlayer.src = track.audioSrc;
       }
-      if (track.audioSrc) {
-        if (!realAudioPlayer.src || !realAudioPlayer.src.includes(track.audioSrc)) {
-          realAudioPlayer.src = track.audioSrc;
-        }
-        realAudioPlayer.volume = parseFloat(volumeSlider.value) || 0.8;
-        realAudioPlayer.play().catch(err => console.warn('Audio playback error:', err));
-      }
-      playBtn.textContent = '⏸';
-      miniVisualizer.classList.add('animating');
-
-      // Highlight card button
-      document.querySelectorAll('.play-card-btn').forEach(btn => {
-        if (btn.getAttribute('data-track-id') === track.id) {
-          btn.textContent = '⏸';
-          btn.classList.add('active');
-        }
-      });
-      // Highlight row list
-      document.querySelectorAll(`[data-track-id="${track.id}"]`).forEach(row => row.classList.add('playing'));
-
-      startTimelineProgress();
+      realAudioPlayer.volume = parseFloat(volumeSlider.value) || 0.8;
+      realAudioPlayer.play().then(() => {
+        isPlaying = true;
+        playBtn.textContent = '⏸';
+        miniVisualizer.classList.add('animating');
+        updateCardAndHeroButtons(track.id, true);
+      }).catch(err => console.warn('Audio playback error:', err));
     }
   }
 
@@ -401,54 +453,6 @@ function initAudioEngine() {
     playTrack(prevIndex);
   }
 
-  // Progress Bar Timeline Manager
-  function startTimelineProgress() {
-    stopTimelineProgress();
-
-    timelineInterval = setInterval(() => {
-      if (!isPlaying) return;
-
-      let elapsed = 0;
-      let duration = trackDuration;
-
-      const track = tracks[currentTrackIndex];
-      if (track && track.audioSrc && realAudioPlayer && !isNaN(realAudioPlayer.duration) && realAudioPlayer.duration > 0) {
-        elapsed = realAudioPlayer.currentTime;
-        duration = realAudioPlayer.duration;
-        trackDuration = duration;
-      } else if (audioContext) {
-        elapsed = (audioContext.currentTime - playbackStartTime) + pausedTimeOffset;
-      }
-
-      const progressPercent = Math.min(100, (elapsed / duration) * 100);
-
-      progressBar.style.width = `${progressPercent}%`;
-
-      // Update timer labels
-      timeCurrent.textContent = formatTime(elapsed);
-      timeTotal.textContent = formatTime(duration);
-
-      // Stop track automatically if end reached
-      if (elapsed >= duration && duration > 0) {
-        nextTrack();
-      }
-    }, 250);
-  }
-
-  function stopTimelineProgress() {
-    if (timelineInterval) {
-      clearInterval(timelineInterval);
-      timelineInterval = null;
-    }
-  }
-
-  function formatTime(seconds) {
-    if (isNaN(seconds) || seconds < 0) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  }
-
   // Handle progress bar clicks to scrub through track
   progressContainer.addEventListener('click', (e) => {
     if (currentTrackIndex === -1) return;
@@ -458,51 +462,41 @@ function initAudioEngine() {
     const clickedPercentage = clickX / width;
 
     const track = tracks[currentTrackIndex];
-    if (track && track.audioSrc && realAudioPlayer && realAudioPlayer.duration) {
-      realAudioPlayer.currentTime = clickedPercentage * realAudioPlayer.duration;
-    } else if (audioContext) {
-      pausedTimeOffset = clickedPercentage * trackDuration;
-      playbackStartTime = audioContext.currentTime;
-    }
+    const duration = (!isNaN(realAudioPlayer.duration) && realAudioPlayer.duration > 0)
+      ? realAudioPlayer.duration
+      : (track?.duration || 315);
 
-    progressBar.style.width = `${clickedPercentage * 100}%`;
+    realAudioPlayer.currentTime = clickedPercentage * duration;
+    updateTimelineUI();
 
-    if (!isPlaying) {
-      togglePlayPause();
+    if (realAudioPlayer.paused) {
+      realAudioPlayer.play().catch(() => { });
     }
   });
-
-  // ==========================================
-  // EVENT LISTENERS HOOKUPS
-  // ==========================================
 
   // Play buttons from main hero showcase
   const heroListenBtn = document.getElementById('hero-listen-btn');
   if (heroListenBtn) {
     heroListenBtn.addEventListener('click', () => {
-      const customSrc = heroListenBtn.getAttribute('data-audio-src');
-      if (customSrc) {
-        tracks[0].audioSrc = customSrc;
-      }
-      if (currentTrackIndex === 0 && isPlaying) {
+      const releaseId = heroListenBtn.getAttribute('data-release');
+      let idx = tracks.findIndex(t => t.id === releaseId);
+      if (idx === -1) idx = tracks.findIndex(t => t.id === 'Rave_All_Night');
+      if (idx === -1) idx = 0;
+
+      if (currentTrackIndex === idx) {
         togglePlayPause();
       } else {
-        playTrack(0);
+        playTrack(idx);
       }
     });
   }
 
   // Track Rows clicks (inside releases lists)
   document.querySelectorAll('.track-row').forEach(row => {
-    row.addEventListener('click', (e) => {
+    row.addEventListener('click', () => {
       const trackId = row.getAttribute('data-track-id');
-      const customSrc = row.getAttribute('data-audio-src');
       let idx = tracks.findIndex(t => t.id === trackId);
-      if (idx === -1) idx = 0; // default to first track if id changed
-
-      if (customSrc) {
-        tracks[idx].audioSrc = customSrc;
-      }
+      if (idx === -1) idx = 0;
 
       if (currentTrackIndex === idx) {
         togglePlayPause();
@@ -517,12 +511,15 @@ function initAudioEngine() {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const trackId = btn.getAttribute('data-track-id');
-      let idx = tracks.findIndex(t => t.id === trackId);
-      if (idx === -1) idx = 0;
+      const epTracksAttr = btn.getAttribute('data-ep-tracks');
+      const epTracks = epTracksAttr ? epTracksAttr.split(',') : [trackId];
 
-      if (currentTrackIndex === idx) {
+      const currentTrack = tracks[currentTrackIndex];
+      if (currentTrack && epTracks.includes(currentTrack.id)) {
         togglePlayPause();
       } else {
+        let idx = tracks.findIndex(t => t.id === trackId);
+        if (idx === -1) idx = 0;
         playTrack(idx);
       }
     });
@@ -557,6 +554,27 @@ function initAudioEngine() {
       realAudioPlayer.volume = lastVolume;
       muteBtn.textContent = '🔊';
     }
+  });
+
+  // Default to Latest Release (Rave All Night) and trigger immediate playback on entry
+  const defaultIdx = tracks.findIndex(t => t.id === 'Rave_All_Night');
+  const initialIndex = defaultIdx !== -1 ? defaultIdx : 0;
+
+  // Preload and start playback immediately
+  playTrack(initialIndex);
+
+  // Seamless fallback if browser autoplay policy delays playback until first user gesture
+  const startOnFirstGesture = () => {
+    if (realAudioPlayer.paused) {
+      realAudioPlayer.play().catch(() => { });
+    }
+    ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
+      window.removeEventListener(evt, startOnFirstGesture);
+    });
+  };
+
+  ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
+    window.addEventListener(evt, startOnFirstGesture, { once: true, passive: true });
   });
 }
 

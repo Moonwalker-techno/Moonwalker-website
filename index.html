@@ -23,13 +23,15 @@
 
   <!-- CSS entrypoint -->
   <link rel="stylesheet" href="/src/style.css">
+
+  <!-- Preload Latest Release Audio for instant playback -->
+  <link rel="preload" href="/Rave_All_Night/Rave_All_Night.mp3" as="audio" type="audio/mpeg">
 </head>
 
 <body>
 
   <!-- Background Interactive Visualizer -->
   <canvas id="ambient-canvas"></canvas>
-  <div class="scanlines"></div>
 
   <!-- App Wrapper -->
   <div id="app">
@@ -99,18 +101,18 @@
               <div class="vinyl-record"></div>
 
               <!-- ONE artwork block here -->
-              <div class="banner-artwork" id="latest-art-fallback">
-                <img src="/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png" alt="Pump Up The Bass cover"
-                  class="banner-art-img">
+              <div class="banner-artwork" id="latest-art-fallback"
+                style="background-image: url('/Rave_All_Night/Rave_All_Night_Cover.png'); background-size: cover; background-position: center;">
+                <img src="/Rave_All_Night/Rave_All_Night_Cover.png" alt="Rave All Night cover" class="banner-art-img">
               </div>
             </div>
 
             <div class="banner-text">
-              <h2 id="latest-release-title">Pump Up The Bass</h2>
-              <p class="release-info">Moonwalker • Pump Up The Bass • MW-002</p>
+              <h2 id="latest-release-title">Rave All Night EP</h2>
+              <p class="release-info">Moonwalker • Rave All Night EP • MW-5</p>
               <div class="banner-actions">
-                <button class="btn btn-primary play-release-btn" data-release="pump-up-the-bass"
-                  data-audio-src="/Pump_Up_The_Bass/Pump_Up_The_Bass.wav" id="hero-listen-btn">
+                <button class="btn btn-primary play-release-btn" data-release="Rave_All_Night"
+                  data-audio-src="/Rave_All_Night/Rave_All_Night.mp3" id="hero-listen-btn">
                   <span class="btn-icon">▶</span> LISTEN NOW
                 </button>
                 <a href="#music" class="btn btn-secondary" id="hero-view-all-btn">ALL RELEASES</a>
@@ -134,75 +136,143 @@
           <h2 class="section-title">RELEASES</h2>
         </div>
 
-        <!-- TECHNO SECTION -->
-        <div class="discography-category">
-          <div class="category-header">
-            <h3 class="category-title">
-              <span class="category-icon"> </span> TECHNO
-            </h3>
-            <span class="category-badge">UPCOMING</span>
-          </div>
-          <div class="releases-grid" id="techno-releases-container">
-            <!-- Release Card: No End Without Beginning -->
-            <div class="release-card glass-panel" id="release-card-no-end-without-beginning">
-              <div class="card-artwork-wrapper">
-                <div class="card-artwork" id="No_End_Without_Beginning_Image"
-                  style="background-image: url('/No_End_Withoud_Beginning/No_End_Without_Beginning_Image.png'); background-size: cover; background-position: center;">
-                </div>
-                <div class="card-overlay-controls">
-                  <button class="play-card-btn" data-track-id="No_End_Withoud_Beginning"
-                    aria-label="Play Track">▶</button>
-                </div>
+        <!-- All Releases Grid -->
+        <div class="releases-grid" id="releases-container">
+          <!-- Release Card: No End Without Beginning (MW-1) -->
+          <div class="release-card glass-panel" id="release-card-no-end-without-beginning">
+            <div class="card-artwork-wrapper">
+              <div class="card-artwork" id="art-no-end-without-beginning"
+                style="background-image: url('/No_End_Withoud_Beginning/No_End_Without_Beginning_Image.png'); background-size: cover; background-position: center;">
               </div>
-              <div class="card-details">
-                <span class="card-meta">SINGLE • 2026</span>
-                <h3>No End Without Beginning</h3>
-                <p class="card-tracks-summary">1 Track • Techno</p>
-                <div class="card-tracklist">
-                  <div class="track-row" data-track-id="No_End_Withoud_Beginning"
-                    data-audio-src="/No_End_Withoud_Beginning/No_End_Without_Beginning_Master.mp3"
-                    data-title="No End Without Beginning" data-album="No End Without Beginning • MW-1">
-                    <span class="track-num">01</span>
-                    <span class="track-name">No End Without Beginning</span>
-                    <span class="track-play-icon">▶</span>
-                  </div>
+              <div class="card-overlay-controls">
+                <button class="play-card-btn" data-track-id="No_End_Withoud_Beginning"
+                  aria-label="Play Track">▶</button>
+              </div>
+            </div>
+            <div class="card-details">
+              <span class="card-meta">SINGLE • 2026</span>
+              <h3>No End Without Beginning</h3>
+              <p class="card-tracks-summary">1 Track</p>
+              <div class="card-tracklist">
+                <div class="track-row" data-track-id="No_End_Withoud_Beginning"
+                  data-audio-src="/No_End_Withoud_Beginning/No_End_Without_Beginning_Master.mp3"
+                  data-title="No End Without Beginning" data-album="No End Without Beginning • MW-1">
+                  <span class="track-num">01</span>
+                  <span class="track-name">No End Without Beginning</span>
+                  <span class="track-play-icon">▶</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- HARD TECHNO SECTION -->
-        <div class="discography-category">
-          <div class="category-header">
-            <h3 class="category-title">
-              <span class="category-icon"> </span> HARD TECHNO
-            </h3>
-            <span class="category-badge">1 RELEASE</span>
-          </div>
-          <div class="releases-grid" id="hard-techno-releases-container">
-            <!-- Release Card: Pump Up The Bass -->
-            <div class="release-card glass-panel" id="release-card-pump-up-the-bass">
-              <div class="card-artwork-wrapper">
-                <div class="card-artwork" id="art-pump-up-the-bass"
-                  style="background-image: url('/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png'); background-size: cover; background-position: center;">
-                </div>
-                <div class="card-overlay-controls">
-                  <button class="play-card-btn" data-track-id="pump-up-the-bass" aria-label="Play Track">▶</button>
+          <!-- Release Card: Pump Up The Bass (MW-2) -->
+          <div class="release-card glass-panel" id="release-card-pump-up-the-bass">
+            <div class="card-artwork-wrapper">
+              <div class="card-artwork" id="art-pump-up-the-bass"
+                style="background-image: url('/Pump_Up_The_Bass/Pump_Up_The_Bass_Final_Cover.png'); background-size: cover; background-position: center;">
+              </div>
+              <div class="card-overlay-controls">
+                <button class="play-card-btn" data-track-id="pump-up-the-bass" aria-label="Play Track">▶</button>
+              </div>
+            </div>
+            <div class="card-details">
+              <span class="card-meta">SINGLE • 2026</span>
+              <h3>Pump Up The Bass</h3>
+              <p class="card-tracks-summary">1 Track</p>
+              <div class="card-tracklist">
+                <div class="track-row" data-track-id="pump-up-the-bass"
+                  data-audio-src="/Pump_Up_The_Bass/Pump_Up_the_Bass_FInal_Master.mp3" data-title="Pump Up The Bass"
+                  data-album="Pump Up The Bass • MW-2">
+                  <span class="track-num">01</span>
+                  <span class="track-name">Pump Up The Bass</span>
+                  <span class="track-play-icon">▶</span>
                 </div>
               </div>
-              <div class="card-details">
-                <span class="card-meta">SINGLE • 2026</span>
-                <h3>Pump Up The Bass</h3>
-                <p class="card-tracks-summary">1 Track • Hard Techno</p>
-                <div class="card-tracklist">
-                  <div class="track-row" data-track-id="pump-up-the-bass"
-                    data-audio-src="/Pump_Up_The_Bass/Pump_Up_The_Bass.wav" data-title="Pump Up The Bass"
-                    data-album="Pump Up The Bass • MW-002">
-                    <span class="track-num">01</span>
-                    <span class="track-name">Pump Up The Bass</span>
-                    <span class="track-play-icon">▶</span>
-                  </div>
+            </div>
+          </div>
+
+          <!-- Release Card: An Illusion of Freedom (MW-3) -->
+          <div class="release-card glass-panel" id="release-card-an-illusion-of-freedom">
+            <div class="card-artwork-wrapper">
+              <div class="card-artwork" id="art-an-illusion-of-freedom"
+                style="background-image: url('/An_Illusion_of_Freedom/An_Illusion_of_Freedom_cover1.png'); background-size: cover; background-position: center;">
+              </div>
+              <div class="card-overlay-controls">
+                <button class="play-card-btn" data-track-id="An_Illusion_of_Freedom" aria-label="Play Track">▶</button>
+              </div>
+            </div>
+            <div class="card-details">
+              <span class="card-meta">SINGLE • 2026</span>
+              <h3>An Illusion of Freedom</h3>
+              <p class="card-tracks-summary">1 Track</p>
+              <div class="card-tracklist">
+                <div class="track-row" data-track-id="An_Illusion_of_Freedom"
+                  data-audio-src="/An_Illusion_of_Freedom/An_Illusion_of_Freedom_MASTER.mp3"
+                  data-title="An Illusion of Freedom" data-album="An Illusion of Freedom • MW-3">
+                  <span class="track-num">01</span>
+                  <span class="track-name">An Illusion of Freedom</span>
+                  <span class="track-play-icon">▶</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Release Card: Roll The Dice (MW-4) -->
+          <div class="release-card glass-panel" id="release-card-roll-the-dice">
+            <div class="card-artwork-wrapper">
+              <div class="card-artwork" id="art-roll-the-dice"
+                style="background-image: url('/Roll_the_Dice/Roll_the_Dice_Cover.png'); background-size: cover; background-position: center;">
+              </div>
+              <div class="card-overlay-controls">
+                <button class="play-card-btn" data-track-id="Roll_The_Dice" aria-label="Play Track">▶</button>
+              </div>
+            </div>
+            <div class="card-details">
+              <span class="card-meta">SINGLE • 2026</span>
+              <h3>Roll The Dice</h3>
+              <p class="card-tracks-summary">1 Track</p>
+              <div class="card-tracklist">
+                <div class="track-row" data-track-id="Roll_The_Dice"
+                  data-audio-src="/Roll_the_Dice/Roll_the_Dice_MASTER.mp3" data-title="Roll The Dice"
+                  data-album="Roll The Dice • MW-4">
+                  <span class="track-num">01</span>
+                  <span class="track-name">Roll The Dice</span>
+                  <span class="track-play-icon">▶</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Release Card: Rave All Night EP (MW-5) -->
+          <div class="release-card glass-panel" id="release-card-rave-all-night">
+            <div class="card-artwork-wrapper">
+              <div class="card-artwork" id="art-rave-all-night"
+                style="background-image: url('/Rave_All_Night/Rave_All_Night_Cover.png'); background-size: cover; background-position: center;">
+              </div>
+              <div class="card-overlay-controls">
+                <button class="play-card-btn" data-track-id="Rave_All_Night"
+                  data-ep-tracks="Rave_All_Night,Rave_All_Night_Hard_Techno_Edit" aria-label="Play Track">▶</button>
+              </div>
+            </div>
+            <div class="card-details">
+              <span class="card-meta" style="color: var(--color-primary); font-weight: bold;">LATEST RELEASE • EP •
+                2026</span>
+              <h3>Rave All Night EP</h3>
+              <p class="card-tracks-summary">2 Tracks</p>
+              <div class="card-tracklist">
+                <div class="track-row" data-track-id="Rave_All_Night"
+                  data-audio-src="/Rave_All_Night/Rave_All_Night.mp3" data-title="Rave All Night"
+                  data-album="Rave All Night EP • MW-5">
+                  <span class="track-num">01</span>
+                  <span class="track-name">Rave All Night</span>
+                  <span class="track-play-icon">▶</span>
+                </div>
+                <div class="track-row" data-track-id="Rave_All_Night_Hard_Techno_Edit"
+                  data-audio-src="/Rave_All_Night/Rave_All_Night_Hard_Techno_Edit.mp3"
+                  data-title="Rave All Night (Hard Techno Edit)" data-album="Rave All Night EP • MW-5">
+                  <span class="track-num">02</span>
+                  <span class="track-name">Rave All Night (Hard Techno Edit)</span>
+                  <span class="track-play-icon">▶</span>
                 </div>
               </div>
             </div>
@@ -215,12 +285,6 @@
     <section id="bio" class="section-padding">
       <div class="section-container bio-grid">
         <div class="bio-visual">
-          <div class="orbit-visual">
-            <div class="orbit-line inner"></div>
-            <div class="orbit-line mid"></div>
-            <div class="orbit-line outer"></div>
-            <div class="orbit-core">▲</div>
-          </div>
           <img src="/Pictures/Moonwalker_foto_1_without_background_oval.png" alt="Moonwalker" class="bio-image">
         </div>
         <div class="bio-text-content">
